@@ -71,14 +71,13 @@ y_predict = classifier.predict(X_test)
 
 print("Accuracy: %.2f%%" % (100*classifier.score(X_test, y_test)))
 
-conf_mtx = confusion_matrix(y_test, y_predict)
+conf_mtx = confusion_matrix(y_test, y_predict, labels=GENRES)
 np.savetxt(OUTPUT_FILE, conf_mtx, delimiter=",")
 
 # make graphs
 print("[creating cool visualizations]")
 plt.figure()
-plots.plot_confusion_matrix(conf_mtx, classes=GENRES ,normalize=True)
-plt.savefig(PLOT_FILENAME, bbox_inches='tight')
+plots.plot_confusion_matrix(conf_mtx, classes=GENRES ,normalize=True, savefile=PLOT_FILENAME)
 
 # Time
 print("Execution time: %.2f seconds" % (time.time()-start_time))
