@@ -27,6 +27,9 @@ GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'country']
 y = [] # output
 X = [] # input 
 
+# build a genre counter to have the same number of inputs per genre
+genre_count = [0] * len(GENRES)
+
 # get x's and y's from data file
 # file contains one instance on each line with the format
 #   y,x1,x2,...,xn
