@@ -103,7 +103,7 @@ np.savetxt(OUTPUT_FILE, conf_mtx, delimiter=",")
 # make graphs
 print("[creating cool visualizations]")
 plt.figure()
-plots.plot_confusion_matrix(conf_mtx, classes=YEARS ,normalize=True, savefile=PLOT_FILENAME)
+plots.plot_confusion_matrix(conf_mtx, classes=YEARS ,normalize=True, savefile=PLOT_FILENAME, print_values=False)
 
 # Time
 print("Execution time: %.2f seconds" % (time.time()-start_time))

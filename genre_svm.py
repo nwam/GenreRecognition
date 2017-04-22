@@ -1,3 +1,5 @@
+# T
+# This script works with the data generated/processed from get_all_the_data.py
 from helper import plots
 
 import numpy as np
@@ -7,11 +9,7 @@ import sklearn
 from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix, mean_squared_error
 
-import seaborn as sns
-import pandas as pd
 import matplotlib.pyplot as plt
-import optunity
-import optunity.metrics
 
 start_time = time.time()
 np.set_printoptions(threshold=np.nan)
@@ -21,9 +19,9 @@ OUTPUT_FILE = "genre_confusion.csv"
 PLOT_FILENAME = "genre_confusion.png"
 DELIM = ","
 TRAIN_PERCENT = 0.9
-N_PER_GENRE = 8500 # number of instances per class
-GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'folk']
-#GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'country', 'metal', 'reggae', 'r&b', 'folk']
+N_PER_GENRE = 1000 # number of instances per class
+#GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'folk']
+GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'country', 'metal', 'reggae', 'r&b', 'folk']
 
 y = [] # output
 X = [] # input 
@@ -73,16 +71,6 @@ print(genre_count)
 print("[preprocessing data]")
 X_train = sklearn.preprocessing.normalize(X_train)
 X_test = sklearn.preprocessing.normalize(X_test)
-
-
-# split data into train and test
-#print("[splitting data]")
-#split_index = int(len(y) * TRAIN_PERCENT)
-#y_train = y[:split_index]
-#X_train = X[:split_index]
-#y_test  = y[split_index:]
-#X_test  = X[split_index:]
-#print(len(y_train), len(y_test))
 
 # train the classifier (svm)
 print("[training classifier]")

@@ -6,7 +6,8 @@ def plot_confusion_matrix(cm, classes,
                           normalize=False,
                           title='Confusion matrix',
                           cmap=plt.cm.inferno,
-                          savefile=None):
+                          savefile=None,
+                          print_values=True):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
@@ -29,11 +30,12 @@ def plot_confusion_matrix(cm, classes,
     plt.yticks(tick_marks, classes)
     plt.gca().grid(False)
 
-#    thresh = cm.max() / 2.
-#    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-#        plt.text(j, i, round(cm[i, j],2),
-#                 horizontalalignment="center",
-#                 color="black" if cm[i, j] > thresh else "white")
+    if print_values:
+        thresh = cm.max() / 2.
+        for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+            plt.text(j, i, round(cm[i, j],2),
+                     horizontalalignment="center",
+                     color="black" if cm[i, j] > thresh else "white")
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
