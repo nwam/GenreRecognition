@@ -16,56 +16,77 @@ import optunity.metrics
 start_time = time.time()
 np.set_printoptions(threshold=np.nan)
 
-DATA_FILE = "data/data_genre_pitches_timbre.csv"
+DATA_FILE = "data/literall_all.csv"
 OUTPUT_FILE = "genre_confusion.csv"
 PLOT_FILENAME = "genre_confusion.png"
 DELIM = ","
-SUBSET_SCALE_DOWN_FACTOR = 1 # =1 to use full dataset, >1 to not
 TRAIN_PERCENT = 0.9
-GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'folk', 'country', 'metal', 'r&b', 'reggae']
+N_PER_GENRE = 8500 # number of instances per class
+GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'folk']
+#GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'country', 'metal', 'reggae', 'r&b', 'folk']
 
 y = [] # output
 X = [] # input 
+
+y_test = []
+y_train = []
+X_test = []
+X_train = []
+
+# build a genre counter to have the same number of inputs per genre
+genre_count = {}
+for genre in GENRES:
+    genre_count[genre] = 0
 
 # get x's and y's from data file
 # file contains one instance on each line with the format
 #   y,x1,x2,...,xn
 print("[gathering data]")
 with open(DATA_FILE, "r") as f:
-    i = -1
     for line in f:
-        i = i+1 
-        if i%SUBSET_SCALE_DOWN_FACTOR!=0:
-            continue
-
         values = line.split(DELIM)
+
+
         genre = values[0]
+        year = int(values[1])
         if genre not in GENRES:
             continue
 
-        y.append(genre)
+        if genre_count[genre] < N_PER_GENRE:
+            genre_count[genre] = genre_count[genre] + 1
+            
+            X_entry = []
+            for value in values[2:]:
+                X_entry.append(float(value))
 
-        X_entry = []
-        for value in values[1:4]:
-            X_entry.append(float(value))
-        X.append(X_entry)
+            if genre_count[genre] < N_PER_GENRE*TRAIN_PERCENT:
+                y_train.append(genre)
+                X_train.append(X_entry)
+                     
+            else: # add to test
+                y_test.append(genre)
+                X_test.append(X_entry)
+
+print(genre_count)
 
 # preprocessing
 print("[preprocessing data]")
-X = sklearn.preprocessing.normalize(X)
+X_train = sklearn.preprocessing.normalize(X_train)
+X_test = sklearn.preprocessing.normalize(X_test)
+
 
 # split data into train and test
-print("[splitting data]")
-split_index = int(len(y) * TRAIN_PERCENT)
-y_train = y[:split_index]
-X_train = X[:split_index]
-y_test  = y[split_index:]
-X_test  = X[split_index:]
-print(len(y_train), len(y_test))
+#print("[splitting data]")
+#split_index = int(len(y) * TRAIN_PERCENT)
+#y_train = y[:split_index]
+#X_train = X[:split_index]
+#y_test  = y[split_index:]
+#X_test  = X[split_index:]
+#print(len(y_train), len(y_test))
 
 # train the classifier (svm)
 print("[training classifier]")
-classifier = SVC(kernel='rbf', C=10000)
+classifier = SVC(kernel='rbf', C=5000)
 classifier.fit(X_train, y_train)
 
 # test the classifier
