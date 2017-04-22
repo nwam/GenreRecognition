@@ -17,9 +17,9 @@ import optunity.metrics
 start_time = time.time()
 np.set_printoptions(threshold=np.nan)
 
-KERNELS = ["poly"]
-C_VALS = [1, 10, 100, 1000, 0.1, 0.001]
-GAMMAS = ['auto'] 
+KERNELS = ['rbf',"poly",'linear']
+C_VALS = [0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000]
+GAMMAS = [1, 0.1, 0.001, 0.0001, 0.00001] 
 
 DATA_FILE = "data/genre.csv"
 OUTPUT_FILE = "genre_confusion.csv"
@@ -83,7 +83,8 @@ for kernel in KERNELS:
             avg_score = scores.mean()
             std_score = scores.std()
                 
-            print("Accuracy: %0.2f (+/- %0.2f) for %s c=%f in %0.2f s" % (avg_score, std_score*2, kernel, c_val,
+            print("Accuracy: %0.2f (+/- %0.2f) for %s c=%f gamma=%f in %0.2f s" % (avg_score, std_score*2, kernel,
+            c_val, gamma,
             time.time()-train_start_time))
 
             if avg_score>best_score:
@@ -93,7 +94,7 @@ for kernel in KERNELS:
                 best_kernel = kernel
 
 
-print("And the winner is...\n kernel=%s c=%f, gamma=" % ( best_kernel, best_c))
+print("And the winner is...\n kernel=%s c=%f, gamma=%f" % ( best_kernel, best_c, gamma))
 
 # build the best classifier
 #classifier = SVC(kernel=best_kernel, C=best_c, gamma=best_gamma)

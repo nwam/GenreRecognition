@@ -16,13 +16,13 @@ import optunity.metrics
 start_time = time.time()
 np.set_printoptions(threshold=np.nan)
 
-DATA_FILE = "data/data_genre_pitches_timbre.csv"
+DATA_FILE = "data/data_genre_pitches.csv"
 OUTPUT_FILE = "genre_confusion.csv"
 PLOT_FILENAME = "genre_confusion.png"
 DELIM = ","
 SUBSET_SCALE_DOWN_FACTOR = 1 # =1 to use full dataset, >1 to not
 TRAIN_PERCENT = 0.9
-GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'folk', 'country', 'metal', 'r&b', 'reggae']
+GENRES = ['hip hop', 'rock', 'electronic', 'pop', 'jazz', 'country']
 
 y = [] # output
 X = [] # input 
@@ -46,7 +46,7 @@ with open(DATA_FILE, "r") as f:
         y.append(genre)
 
         X_entry = []
-        for value in values[1:4]:
+        for value in values[1:]:
             X_entry.append(float(value))
         X.append(X_entry)
 
@@ -65,7 +65,7 @@ print(len(y_train), len(y_test))
 
 # train the classifier (svm)
 print("[training classifier]")
-classifier = SVC(kernel='rbf', C=10000)
+classifier = SVC(kernel='rbf', C=5000)
 classifier.fit(X_train, y_train)
 
 # test the classifier
