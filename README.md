@@ -7,9 +7,9 @@ For more information, you can view this project’s [report](report.pdf).
 ### 10 Genres
 ![10-genre case results](results/10_genre_results.png) 
 
-This is a confusion matrix representing the performance of the SVM trained for 10 genres. We trained on 4,000 samples for each genre.
+This is a confusion matrix representing the performance of the SVM trained for 10 genres. We trained on 4,000 samples for each genre. The overall accuracy is 59%.
 
 ### 6 Genres
 ![6-genre case results](results/6_genre_results.png)
 
-This is a confusion matrix representing the performance of the SVM trained for 6 genres. We trained on 10,000 samples for each genre.
+This is a confusion matrix representing the performance of the SVM trained for 6 genres. We trained on 10,000 samples for each genre. The overall accuracy is 68%.
